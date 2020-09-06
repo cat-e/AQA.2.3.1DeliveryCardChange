@@ -10,21 +10,21 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static ru.netology.DataGenerator.Registration.*;
+import static ru.netology.test.DataGenerator.Registration.*;
 
 public class DeliveryCardChangeTest {
 
     @Test
     void shouldSendDataForDelivery() {
-        String date = LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
-        String date1 = LocalDate.now().plusDays(20).format(DateTimeFormatter.ofPattern("dd.MM.yyyy"));
+        String date = getDate(4);
+        String date1 = getDate(20);
 
         open("http://localhost:9999/");
-        $("[placeholder='Город']").setValue(cityForCard("ru"));
+        $("[placeholder='Город']").setValue(getCityForCard());
         $(".calendar-input__custom-control input").doubleClick().sendKeys(Keys.BACK_SPACE);
         $(".calendar-input__custom-control input").setValue(date);
-        $("[name='name']").setValue(nameForCard("ru"));
-        $("[name='phone']").setValue(phoneForCard("ru"));
+        $("[name='name']").setValue(getNameForCard("ru"));
+        $("[name='phone']").setValue(getPhoneForCard("ru"));
         $("[data-test-id=agreement] .checkbox__box").click();
         $("button.button").click();
         $("[data-test-id=success-notification]").waitUntil(visible, 15000).shouldHave(text("Встреча успешно запланирована на " + date));
